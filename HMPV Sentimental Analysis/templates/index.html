@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMPV Sentiment Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>HMPV Sentiment Analysis</h1>
+        <form method="POST">
+            <label for="url">Enter News Website URL:</label>
+            <input type="text" id="url" name="url" placeholder="https://example-news-website.com/hmpv-news" required>
+            <button type="submit">Analyze Sentiment</button>
+        </form>
+
+        {% if results %}
+        <h2>Results:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Headline</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.headline }}</td>
+                    <td class="{{ result.sentiment.lower() }}">{{ result.sentiment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>

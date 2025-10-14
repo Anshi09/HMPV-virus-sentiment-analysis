@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sentiment Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; }
+        textarea { width: 100%; height: 120px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; }
+        button { padding: 10px 20px; font-size: 16px; margin-top: 10px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 8px; }
+        button:hover { background-color: #0056b3; }
+        .result-box { margin-top: 20px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); display: none; }
+        .result-box p { margin: 0; font-size: 16px; color: #333; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img alt="Logo" class="h-8 w-8" height="50" src="https://storage.googleapis.com/a1aa/image/3Y3Gf9rZGUYJaSEDqcZN11FUCjgN-jYgzewtcCRmQ3I.jpg" width="50" />
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a class="menu-link text-gray-800 hover:text-gray-600" href="homepage.html" id="homeLink">
+                    Home
+                </a>
+                <a class="menu-link text-gray-800 hover:text-gray-600" href="sample.html" id="featuresLink">
+                    Analysis
+                </a>
+                <a class="menu-link text-gray-800 hover:text-gray-600" href="about.html" id="aboutLink">
+                    About
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="javascript:void(0);" id="logoutButton">
+                    <button class="bg-black text-white px-4 py-2 rounded">
+                        Logout
+                    </button>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="newsContainer" class="max-w-3xl mx-auto mt-10 space-y-6"></div>
+
+    <script>
+    fetch('hmpv_news.json')
+      .then(response => response.json())
+      .then(newsArray => {
+        const container = document.getElementById('newsContainer');
+        container.innerHTML = '';
+        newsArray.forEach(news => {
+          const block = document.createElement('div');
+          block.className = 'bg-white rounded-lg shadow p-6 flex flex-col space-y-2';
+
+          block.innerHTML = `
+            <h2 class="text-xl font-bold text-gray-800">${news.Title}</h2>
+            <a href="${news.Link}" target="_blank" class="text-blue-600 hover:underline break-all">${news.Link}</a>
+            <div class="text-gray-500 text-sm">${news.Date}</div>
+            <div class="font-semibold text-lg">${news.Sentiment}</div>
+          `;
+          container.appendChild(block);
+        });
+      })
+      .catch(error => {
+        document.getElementById('newsContainer').innerHTML = '<div class="text-red-500">Failed to load news.</div>';
+        console.error(error);
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <p class="text-center">© 2025 HMPV Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
